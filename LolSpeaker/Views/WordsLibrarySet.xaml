@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="LolSpeaker.Views.WordsLibrarySet"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LolSpeaker.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:prism ="http://prismlibrary.com/"
+             xmlns:i ="http://schemas.microsoft.com/xaml/behaviors"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="650">
+  <prism:Dialog.WindowStyle>
+    <Style TargetType="Window">
+      <Setter Property="Height" Value="450"/>
+      <Setter Property="Width" Value="800"/>
+      <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen"/>
+    </Style>
+  </prism:Dialog.WindowStyle>
+
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Border BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+      <TabControl
+      ItemsSource="{Binding Library.Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" TabStripPlacement="Left" Style="{StaticResource TabControlInLine}">
+        <!--header模板-->
+        <TabControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding CategoryName}"/>
+          </DataTemplate>
+        </TabControl.ItemTemplate>
+        <!--页面内容模板-->
+        <TabControl.ContentTemplate>
+          <DataTemplate>
+            <Grid Margin="5">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+              </Grid.RowDefinitions>
+
+              <!--复制到功能暂时注释掉
+              <hc:SplitButton HitMode="Click" BorderThickness="0" Content="复制到" ToolTip="把当前词库的内容复制到别的词库">
+                <hc:SplitButton.DropDownContent>
+                  <ItemsControl ItemsSource="{Binding TargetCategories}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <MenuItem Header="{Binding CategoryName}"
+                                  Command="{Binding DataContext.CopyToCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                  CommandParameter="{Binding CategoryName}"/>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </hc:SplitButton.DropDownContent>
+              </hc:SplitButton>
+              -->
+
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,2">
+                <TextBlock Text="发送方式" Foreground="Black" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <RadioButton Content="随机发送" IsChecked="{Binding IsRandomSend}" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                <RadioButton Content="顺序发送" IsChecked="{Binding IsSequentialSend}" VerticalAlignment="Center" ToolTip="按词条顺序逐条发送，发到末尾后回到第一条" Margin="0,0,15,0"/>
+                <RadioButton Content="一次性发送" IsChecked="{Binding IsOneShotSend}" VerticalAlignment="Center" ToolTip="按下按键后把这个词库逐条发一遍，词库超过30条时不能开启"/>
+              </StackPanel>
+              <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,5">
+                <CheckBox Content="逐字发送" IsChecked="{Binding IsPerWord}" VerticalAlignment="Center" Margin="0,0,20,0" ToolTip="更安全，绕过屏蔽"/>
+                <TextBlock Text="发送间隔" Foreground="Black" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding SendInterval, UpdateSourceTrigger=PropertyChanged}" Width="50" MinWidth="50" VerticalContentAlignment="Center" Margin="0,0,5,0"/>
+                <TextBlock Text="ms（逐字发送和一次性发送时，两条之间的间隔）" Foreground="Black" VerticalAlignment="Center"/>
+              </StackPanel>
+              <TextBox Grid.Row="2" Text="{Binding WordsText, UpdateSourceTrigger=PropertyChanged}"
+                       AcceptsReturn="True" TextWrapping="NoWrap"
+                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                       Margin="0,2,0,0" ToolTip="一行一条词条，空行会被忽略"/>
+            </Grid>
+
+          </DataTemplate>
+        </TabControl.ContentTemplate>
+      </TabControl>
+    </Border>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5">
+      <Button Content="新增词库" Command="{Binding AddCategoryCommand}" Width="100" Margin="0,0,10,0"/>
+      <Button Content="修改名称" Command="{Binding RenameCategoryCommand}" Width="100" Margin="0,0,10,0"/>
+      <Button Content="删除词库" Command="{Binding DeleteCategoryCommand}" Width="100" Margin="0,0,10,0"/>
+      <Button Content="保存" Command="{Binding SaveCommand}" IsDefault="True" Style="{StaticResource ButtonPrimary}" Width="100" Margin="0,0,10,0"/>
+      <Button Content="关闭" Command="{Binding CancelCommand}" IsCancel="True" Width="100"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

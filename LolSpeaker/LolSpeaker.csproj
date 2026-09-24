@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<StartupObject>LolSpeaker.App</StartupObject>
+		<PlatformTarget>x86</PlatformTarget>
+		<ApplicationIcon>Assets\Images\LOL_speaker.ico</ApplicationIcon>
+		<AssemblyName>lol_speaker</AssemblyName>
+		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!--打单文件 exe：把依赖 dll 全部塞进 lol_speaker.exe，用户只下一个文件就能跑-->
+		<PackageReference Include="Costura.Fody" Version="5.7.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="RestSharp" Version="108.0.3" />
+		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.3" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.0" />
+		<PackageReference Include="HandyControl" Version="3.4.0" />
+		<PackageReference Include="log4net" Version="2.0.12" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="4.3.0" />
+		<PackageReference Include="WindowsInput" Version="6.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\Images\复制.png" />
+	  <None Remove="build.bat" />
+	  <None Remove="FodyWeavers.xml" />
+	  <None Remove="FodyWeavers.xsd" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\log4net.config" />
+		<EmbeddedResource Include="Assets\wordsLibrary.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\LolSpeakerUpdate\LolSpeakerUpdate.csproj">
+	  </ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="System.Net.Http" />
+	  <Reference Include="System.Windows.Forms" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\Images\github.png" />
+		<Resource Include="Assets\Images\LOL_speaker.ico" />
+		<Resource Include="Assets\Images\删除.png" />
+		<Resource Include="Assets\Images\复制.png" />
+		<Resource Include="Assets\Images\添加.png" />
+		<Resource Include="Assets\Images\粘贴.png" />
+		<Resource Include="Assets\Images\编辑.png" />
+	</ItemGroup>
+	<ProjectExtensions>
+		<VisualStudio><UserProperties /></VisualStudio>
+	</ProjectExtensions>
+
+</Project>
